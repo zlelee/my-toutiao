@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <van-nav-bar class="page-nav-bar" title="登录" />
-    <van-form @submit="onSubmit" ref="loginForm">
+    <van-form @submit="onSubmit" ref="loginForm" class="login-form">
       <van-field
         v-model="userInfo.mobile"
         placeholder="请输入手机号"
@@ -23,7 +23,10 @@
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
-          <van-button class="send-sms-btn" native-type="button" @click="getCode">获取验证码</van-button>
+          <van-count-down :time="1000 *5" format="ss 秒" v-if="isShowCountDown" @finish="isShowCountDown = false"/>
+          <van-button v-else class="send-sms-btn" native-type="button" @click="getCode"
+            >获取验证码</van-button
+          >
         </template>
       </van-field>
       <div class="login-btn-wrap">
@@ -55,7 +58,8 @@ export default {
           { required: true, message: '请填写验证码' },
           { pattern: /^\d{6}$/, message: '验证码不正确' }
         ]
-      }
+      },
+      isShowCountDown: false
     }
   },
 
@@ -79,6 +83,7 @@ export default {
     async getCode() {
       try {
         await this.$refs.loginForm.validate('mobile')
+        this.isShowCountDown = true
       } catch (err) {
         this.$toast.fail('手机号格式不正确')
       }
@@ -107,6 +112,12 @@ export default {
     .login-btn {
       background-color: #6db4fb;
       border: none;
+    }
+  }
+  .login-form{
+    .van-field {
+      height: 100px;
+      line-height: 60px;
     }
   }
 }
