@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { setItem, getItem } from '@/utils/storage'
 Vue.use(Vuex)
-
+const TOKEN = 'token'
 export default new Vuex.Store({
   state: {
-    tokenObj: JSON.parse(localStorage.getItem('TOKEN'))
+    tokenObj: getItem(TOKEN)
   },
   mutations: {
     setTokenObj (state, data) {
-      state.tokenObj = JSON.stringify(data)
-      window.localStorage.setItem('TOKEN', state.tokenObj)
+      state.tokenObj = data
+      setItem(TOKEN, data)
     }
   },
   actions: {
