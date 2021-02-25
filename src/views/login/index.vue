@@ -7,6 +7,7 @@
         placeholder="请输入手机号"
         type="number"
         maxlength="11"
+        :rules="userForm.mobile"
         clearable
       >
         <i slot="left-icon" class="toutiao toutiao-shouji"></i>
@@ -16,6 +17,7 @@
         placeholder="请输入验证码"
         type="number"
         maxlength="6"
+        :rules="userForm.code"
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
@@ -40,6 +42,16 @@ export default {
       userInfo: {
         mobile: '13911111111',
         code: '246810'
+      },
+      userForm: {
+        mobile: [
+          { required: true, message: '请填写手机号' },
+          { pattern: /^1[3579]\d{9}$/, message: '手机号格式不正确' }
+        ],
+        code: [
+          { required: true, message: '请填写验证码' },
+          { pattern: /^\d{6}$/, message: '验证码不正确' }
+        ]
       }
     }
   },
