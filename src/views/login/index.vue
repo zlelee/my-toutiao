@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <van-nav-bar class="page-nav-bar" title="登录" />
-    <van-form @submit="onSubmit">
+    <van-form @submit="onSubmit" ref="loginForm">
       <van-field
         v-model="userInfo.mobile"
         placeholder="请输入手机号"
@@ -9,6 +9,7 @@
         maxlength="11"
         :rules="userForm.mobile"
         clearable
+        name="mobile"
       >
         <i slot="left-icon" class="toutiao toutiao-shouji"></i>
       </van-field>
@@ -18,10 +19,11 @@
         type="number"
         maxlength="6"
         :rules="userForm.code"
+        name="code"
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
-          <button class="send-sms-btn" size="small">获取验证码</button>
+          <van-button class="send-sms-btn" native-type="button" @click="getCode">获取验证码</van-button>
         </template>
       </van-field>
       <div class="login-btn-wrap">
@@ -73,6 +75,13 @@ export default {
         }
         this.$toast.fail('登录失败')
       }
+    },
+    async getCode() {
+      try {
+        await this.$refs.loginForm.validate('mobile')
+      } catch (err) {
+        this.$toast.fail('手机号格式不正确')
+      }
     }
   }
 }
@@ -84,7 +93,7 @@ export default {
     font-size: 37px;
   }
   .send-sms-btn {
-    width: 152px;
+    width: 180px;
     height: 46px;
     line-height: 46px;
     background-color: #ededed;
