@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+import { login, getSmsCode } from '@/api/user'
 export default {
   name: 'Login',
 
@@ -84,6 +84,16 @@ export default {
       try {
         await this.$refs.loginForm.validate('mobile')
         this.isShowCountDown = true
+        try {
+          await getSmsCode(this.userInfo.mobile)
+          this.$toast('发送成功')
+        } catch (err) {
+          if (err.response.status === 429) {
+            this.$toast('发送太频繁了,请稍后再试')
+          } else {
+            this.$toast('发送失败,请稍后再试')
+          }
+        }
       } catch (err) {
         this.$toast.fail('手机号格式不正确')
       }
