@@ -2,6 +2,7 @@
   <div id="app">
     <!-- 子路由出口 -->
     <router-view/>
+    <i class="toutiao toutiao-shipin"></i>
   </div>
 </template>
 
