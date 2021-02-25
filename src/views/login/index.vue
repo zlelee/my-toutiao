@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
 export default {
   name: 'Login',
 
@@ -57,7 +58,17 @@ export default {
   },
 
   methods: {
-    onSubmit() {}
+    async onSubmit() {
+      try {
+        const res = await login(this.userInfo)
+        console.log(res)
+      } catch (err) {
+        if (err.response.status === 400) {
+          console.log('手机号或验证码输入错误')
+        }
+        console.log('登录失败')
+      }
+    }
   }
 }
 </script>
