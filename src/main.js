@@ -5,6 +5,11 @@ import store from './store'
 
 // 引入全局样式
 import './style/index.less'
+// 引入 Vant 组件库
+import Vant from 'vant'
+import 'vant/lib/index.css'
+
+Vue.use(Vant)
 Vue.config.productionTip = false
 
 new Vue({
