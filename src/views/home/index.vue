@@ -14,7 +14,7 @@
       swipe-threshold="3"
     >
       <van-tab v-for="channel in channels" :key="channel.id" :title="channel.name">
-        <article-list></article-list>
+        <article-list :channel="channel"></article-list>
       </van-tab>
           <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger-btn">

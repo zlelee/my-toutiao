@@ -7,7 +7,12 @@
 <script>
 export default {
   name: '',
-
+  props: {
+    channel: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
     }
