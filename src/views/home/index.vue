@@ -2,9 +2,18 @@
   <div class="home-container">
     <van-nav-bar class="page-nav-bar">
       <van-button class="search-btn" slot="title" icon="search" round>
-      搜索</van-button>
+        搜索</van-button
+      >
     </van-nav-bar>
-
+    <!-- Tab标签页 -->
+    <van-tabs v-model="active" animated swipeable swipe-threshold="3">
+      <van-tab title="标签 1">内容 1</van-tab>
+      <van-tab title="标签 2">内容 2</van-tab>
+      <van-tab title="标签 3">内容 3</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -12,8 +21,9 @@
 export default {
   name: 'Home',
 
-  data () {
+  data() {
     return {
+      active: 0
     }
   },
 
@@ -21,10 +31,10 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .home-container {
   .search-btn {
-     width: 555px;
+    width: 555px;
     height: 64px;
     background-color: #5babfb;
     border: none;
@@ -35,8 +45,8 @@ export default {
       color: #fff;
     }
   }
-  /deep/ .van-nav-bar__title{
-      max-width: unset;
+  /deep/ .van-nav-bar__title {
+    max-width: unset;
   }
 }
 </style>
