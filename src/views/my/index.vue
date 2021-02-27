@@ -1,26 +1,7 @@
 <template>
   <div class="my-container">
-    <!-- 未登录头部 -->
-    <div class="header not-login" v-if="!tokenObj">
-      <div
-        class="login-btn"
-        @click="
-          $router.push({
-            name: 'login',
-            query: {
-              redirect: '/my'
-            }
-          })
-        "
-      >
-        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
-        <span class="text">登录 / 注册</span>
-      </div>
-    </div>
-
     <!-- 已登录头部 -->
-    <!-- 已登录 -->
-    <div class="header user-info">
+    <div class="header user-info" v-if="tokenObj">
       <div class="base-info">
         <div class="left">
           <van-image
@@ -54,6 +35,23 @@
         </div>
       </div>
     </div>
+    <!-- 未登录头部 -->
+    <div class="header not-login" v-else>
+      <div
+        class="login-btn"
+        @click="
+          $router.push({
+            name: 'login',
+            query: {
+              redirect: '/my'
+            }
+          })
+        "
+      >
+        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
+        <span class="text">登录 / 注册</span>
+      </div>
+    </div>
     <!-- 个人中心宫格导航 -->
     <van-grid :column-num="2" class="grid-nav">
       <van-grid-item class="grid-item">
@@ -65,6 +63,13 @@
         <span slot="text" class="text">历史</span>
       </van-grid-item>
     </van-grid>
+
+    <!-- cell 单元格 -->
+    <van-cell-group class="cell-group">
+      <van-cell title="消息提示" is-link />
+      <van-cell title="小智同学" is-link />
+    </van-cell-group>
+    <van-cell v-if="tokenObj" class="logout-cell" title="退出登录" center clickable />
   </div>
 </template>
 
@@ -170,6 +175,9 @@ export default {
         font-size: 28px;
       }
     }
+  }
+  .cell-group {
+    margin: 7px 0;
   }
   .logout-cell {
     text-align: center;
