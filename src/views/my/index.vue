@@ -69,7 +69,14 @@
       <van-cell title="消息提示" is-link />
       <van-cell title="小智同学" is-link />
     </van-cell-group>
-    <van-cell v-if="tokenObj" class="logout-cell" title="退出登录" center clickable />
+    <van-cell
+      v-if="tokenObj"
+      class="logout-cell"
+      title="退出登录"
+      center
+      clickable
+      @click="logout"
+    />
   </div>
 </template>
 
@@ -82,7 +89,20 @@ export default {
     return {}
   },
 
-  methods: {},
+  methods: {
+    logout() {
+      this.$dialog.confirm({
+        title: '确认退出'
+      })
+        .then(() => {
+          // on confirm
+          this.$store.commit('setTokenObj', null)
+        })
+        .catch(() => {
+          // on cancel
+        })
+    }
+  },
 
   computed: {
     ...mapState(['tokenObj'])
