@@ -73,6 +73,7 @@ export default {
         const { data } = await login(this.userInfo)
         this.$toast.success('登录成功')
         this.$store.commit('setTokenObj', data.data)
+        this.$router.push(this.$route.query.redirect || '/')
       } catch (err) {
         if (err.response.status === 400) {
           this.$toast.fail('手机号或验证码输入错误')
