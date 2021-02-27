@@ -19,6 +19,10 @@
       <van-tab title="标签 4">内容 4</van-tab>
       <van-tab title="标签 4">内容 4</van-tab>
       <van-tab title="标签 4">内容 4</van-tab>
+          <div slot="nav-right" class="placeholder"></div>
+      <div slot="nav-right" class="hamburger-btn">
+        <i class="toutiao toutiao-gengduo"></i>
+      </div>
     </van-tabs>
   </div>
 </template>
@@ -77,6 +81,25 @@ export default {
     }
     .van-tabs__nav {
       padding: 0;
+    }
+    .hamburger-btn {
+      position: fixed;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 66px;
+      height: 82px;
+      background-color: #fff;
+      opacity: 0.902;
+      i.toutiao {
+        font-size: 33px;
+      }
+    }
+    .placeholder{
+      flex-shrink: 0;
+      width: 66px;
+      height: 82px;
     }
   }
 }
