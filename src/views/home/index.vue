@@ -13,10 +13,14 @@
       swipeable
       swipe-threshold="3"
     >
-      <van-tab v-for="channel in channels" :key="channel.id" :title="channel.name">
+      <van-tab
+        v-for="channel in channels"
+        :key="channel.id"
+        :title="channel.name"
+      >
         <article-list :channel="channel"></article-list>
       </van-tab>
-          <div slot="nav-right" class="placeholder"></div>
+      <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger-btn">
         <i class="toutiao toutiao-gengduo"></i>
       </div>
@@ -109,7 +113,7 @@ export default {
         font-size: 33px;
       }
     }
-    .placeholder{
+    .placeholder {
       flex-shrink: 0;
       width: 66px;
       height: 82px;

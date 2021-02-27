@@ -4,13 +4,8 @@
     <div class="header user-info" v-if="tokenObj">
       <div class="base-info">
         <div class="left">
-          <van-image
-            class="avatar"
-            round
-            fit="cover"
-            :src="userInfo.photo"
-          />
-          <span class="name">{{userInfo.name}}</span>
+          <van-image class="avatar" round fit="cover" :src="userInfo.photo" />
+          <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
           <van-button size="mini" round>编辑资料</van-button>
@@ -18,19 +13,19 @@
       </div>
       <div class="data-stats">
         <div class="data-item">
-          <span class="count">{{userInfo.art_count}}</span>
+          <span class="count">{{ userInfo.art_count }}</span>
           <span class="text">头条</span>
         </div>
         <div class="data-item">
-          <span class="count">{{userInfo.follow_count}}</span>
+          <span class="count">{{ userInfo.follow_count }}</span>
           <span class="text">关注</span>
         </div>
         <div class="data-item">
-          <span class="count">{{userInfo.fans_count}}</span>
+          <span class="count">{{ userInfo.fans_count }}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data-item">
-          <span class="count">{{userInfo.like_count}}</span>
+          <span class="count">{{ userInfo.like_count }}</span>
           <span class="text">获赞</span>
         </div>
       </div>
@@ -96,9 +91,10 @@ export default {
   },
   methods: {
     logout() {
-      this.$dialog.confirm({
-        title: '确认退出'
-      })
+      this.$dialog
+        .confirm({
+          title: '确认退出'
+        })
         .then(() => {
           // on confirm
           this.$store.commit('setTokenObj', null)
