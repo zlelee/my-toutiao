@@ -108,8 +108,12 @@ export default {
         })
     },
     async loadUserInfo() {
-      const { data } = await getUserInfo()
-      this.userInfo = data.data
+      try {
+        const { data } = await getUserInfo()
+        this.userInfo = data.data
+      } catch (err) {
+        this.$toast('获取用户信息失败')
+      }
     }
   },
 

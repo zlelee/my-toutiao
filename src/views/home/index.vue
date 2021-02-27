@@ -14,7 +14,7 @@
       swipe-threshold="3"
     >
       <van-tab v-for="channel in channels" :key="channel.id" :title="channel.name">
-        {{channel.name}}
+        <article-list></article-list>
       </van-tab>
           <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger-btn">
@@ -26,9 +26,12 @@
 
 <script>
 import { getArticleList } from '@/api/article-list'
+import ArticleList from '@/components/article-list'
 export default {
   name: 'Home',
-
+  components: {
+    ArticleList
+  },
   data() {
     return {
       active: 0,
@@ -40,8 +43,12 @@ export default {
   },
   methods: {
     async loadChannels() {
-      const { data } = await getArticleList()
-      this.channels = data.data.channels
+      try {
+        const { data } = await getArticleList()
+        this.channels = data.data.channels
+      } catch (err) {
+        this.$toast('获取频道列表失败')
+      }
     }
   }
 }
