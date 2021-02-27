@@ -13,12 +13,9 @@
       swipeable
       swipe-threshold="3"
     >
-      <van-tab title="标签 1">内容 1</van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab v-for="channel in channels" :key="channel.id" :title="channel.name">
+        {{channel.name}}
+      </van-tab>
           <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger-btn">
         <i class="toutiao toutiao-gengduo"></i>
@@ -28,16 +25,25 @@
 </template>
 
 <script>
+import { getArticleList } from '@/api/article-list'
 export default {
   name: 'Home',
 
   data() {
     return {
-      active: 0
+      active: 0,
+      channels: []
     }
   },
-
-  methods: {}
+  created() {
+    this.loadChannels()
+  },
+  methods: {
+    async loadChannels() {
+      const { data } = await getArticleList()
+      this.channels = data.data.channels
+    }
+  }
 }
 </script>
 
