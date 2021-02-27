@@ -19,7 +19,7 @@
     </div>
 
     <!-- 已登录头部 -->
-      <!-- 已登录 -->
+    <!-- 已登录 -->
     <div class="header user-info">
       <div class="base-info">
         <div class="left">
@@ -54,6 +54,17 @@
         </div>
       </div>
     </div>
+    <!-- 个人中心宫格导航 -->
+    <van-grid :column-num="2" class="grid-nav">
+      <van-grid-item class="grid-item">
+        <i slot="icon" class="toutiao toutiao-shoucang"></i>
+        <span slot="text" class="text">收藏</span>
+      </van-grid-item>
+      <van-grid-item class="grid-item">
+        <i slot="icon" class="toutiao toutiao-lishi"></i>
+        <span slot="text" class="text">历史</span>
+      </van-grid-item>
+    </van-grid>
   </div>
 </template>
 
@@ -76,7 +87,7 @@ export default {
 
 <style lang="less" scoped>
 .my-container {
-    .header {
+  .header {
     height: 361px;
     background: url('~@/assets/banner.png');
     background-size: cover;
@@ -101,7 +112,7 @@ export default {
       }
     }
   }
-   .user-info {
+  .user-info {
     .base-info {
       height: 231px;
       padding: 76px 32px 23px;
