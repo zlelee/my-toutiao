@@ -5,8 +5,14 @@
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad"
+      :error.sync="error"
+      error-text="请求失败，点击重新加载"
     >
-      <van-cell v-for="(item,index) in list" :key="index" :title="item.title" />
+      <van-cell
+        v-for="(item, index) in list"
+        :key="index"
+        :title="item.title"
+      />
     </van-list>
   </div>
 </template>
@@ -25,11 +31,11 @@ export default {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      error: false
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
     async onLoad() {
       // 异步更新数据
@@ -39,14 +45,21 @@ export default {
           timestamp: Date.now(),
           with_top: 1
         })
+        // 往数组中追加数据
         const { results } = data.data
         this.list.push(...results)
+
+        // 模拟错误
+        if (Math.random() > 0.2) {
+          JSON.parse('ssfafsafsa')
+        }
         this.loading = false
         if (!results.length) {
           this.finished = true
         }
       } catch (err) {
-        console.log(err)
+        this.error = true
+        this.loading = false
       }
     }
   }
