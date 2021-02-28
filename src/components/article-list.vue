@@ -94,4 +94,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.article-container{
+  height: 79vh;
+  overflow-y: auto;
+}
 </style>
