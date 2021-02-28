@@ -17,6 +17,7 @@
         v-for="channel in channels"
         :key="channel.id"
         :title="channel.name"
+        class="van-tabs_wrap"
       >
         <article-list :channel="channel"></article-list>
       </van-tab>
@@ -78,10 +79,12 @@ export default {
     max-width: unset;
   }
   /deep/ .channel-tabs {
-    position: fixed;
-    top: 92px;
-    z-index: 2;
-    width: 100%;
+    .van-tabs__wrap {
+      position: fixed;
+      top: 92px;
+      z-index: 2;
+      width: 100%;
+    }
     .van-tab {
       border-right: 1px solid #edeff3;
       min-width: 200px;
