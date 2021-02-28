@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container">
+  <div class="article-container">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh" success-duration="1500" :success-text="successText">
     <van-list
       v-model="loading"
@@ -94,7 +94,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home-container {
-  padding-bottom: 100px;
-}
 </style>

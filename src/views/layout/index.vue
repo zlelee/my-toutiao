@@ -37,6 +37,7 @@ export default {
 <style lang="less" scoped>
 .layout-container {
   .tab-bar {
+    z-index: 999;
     .toutiao {
       font-size: 40px;
     }
