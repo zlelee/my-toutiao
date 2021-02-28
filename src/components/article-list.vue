@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-container">
     <van-list
       v-model="loading"
       :finished="finished"
@@ -39,7 +39,12 @@ export default {
           timestamp: Date.now(),
           with_top: 1
         })
-        this.list = data.data.results
+        const { results } = data.data
+        this.list.push(...results)
+        this.loading = false
+        if (!results.length) {
+          this.finished = true
+        }
       } catch (err) {
         console.log(err)
       }
@@ -48,4 +53,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.home-container {
+  padding-bottom: 100px;
+}
+</style>
