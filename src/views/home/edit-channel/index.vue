@@ -30,6 +30,7 @@
         :key="index"
         icon="plus"
         :text="channel.name"
+        @click="addToMyChannels(channel)"
       >
       </van-grid-item>
     </van-grid>
@@ -66,6 +67,9 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    addToMyChannels(channel) {
+      this.myChannels.push(channel)
     }
   },
   computed: {
