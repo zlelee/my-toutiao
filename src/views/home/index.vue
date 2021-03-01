@@ -33,17 +33,21 @@
       position="bottom"
       close-icon-position="top-left"
       :style="{ height: '100%' }"
-    />
+    >
+    <edit-channel :my-channels="channels"></edit-channel>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getArticleList } from '@/api/article-list'
 import ArticleList from './article-list'
+import EditChannel from './edit-channel'
 export default {
   name: 'Home',
   components: {
-    ArticleList
+    ArticleList,
+    EditChannel
   },
   data() {
     return {
