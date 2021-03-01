@@ -22,10 +22,18 @@
         <article-list :channel="channel"></article-list>
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger-btn">
+      <div slot="nav-right" class="hamburger-btn" @click="editChannel=true">
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
+    <!-- 编辑频道的弹出层 -->
+    <van-popup
+      v-model="editChannel"
+      closeable
+      position="bottom"
+      close-icon-position="top-left"
+      :style="{ height: '100%' }"
+    />
   </div>
 </template>
 
@@ -40,7 +48,8 @@ export default {
   data() {
     return {
       active: 0,
-      channels: []
+      channels: [],
+      editChannel: false
     }
   },
   created() {
