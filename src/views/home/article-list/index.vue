@@ -1,25 +1,27 @@
 <template>
   <div class="article-container">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh" success-duration="1500" :success-text="successText">
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-      :error.sync="error"
-      error-text="请求失败，点击重新加载"
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="onRefresh"
+      success-duration="1500"
+      :success-text="successText"
     >
-      <van-cell
-        v-for="(item, index) in list"
-        :key="index"
-        :title="item.title"
-      />
-    </van-list>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        :error.sync="error"
+        error-text="请求失败，点击重新加载"
+      >
+        <article-item :key="index" v-for="(item,index) in list" :article="item"></article-item>
+      </van-list>
     </van-pull-refresh>
   </div>
 </template>
 
 <script>
+import articleItem from '@/components/article-item'
 import { getArticles } from '@/api/article-list'
 export default {
   name: '',
@@ -89,12 +91,15 @@ export default {
         this.successText = '刷新失败,请稍后再试'
       }
     }
+  },
+  components: {
+    articleItem
   }
 }
 </script>
 
 <style lang="less" scoped>
-.article-container{
+.article-container {
   height: 79vh;
   overflow-y: auto;
 }
