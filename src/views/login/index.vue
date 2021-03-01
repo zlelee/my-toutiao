@@ -10,6 +10,8 @@
         :rules="userForm.mobile"
         clearable
         name="mobile"
+        @focus="show=true"
+        @blur="show=false"
       >
         <i slot="left-icon" class="toutiao toutiao-shouji"></i>
       </van-field>
@@ -23,8 +25,17 @@
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
-          <van-count-down :time="1000 *5" format="ss 秒" v-if="isShowCountDown" @finish="isShowCountDown = false"/>
-          <van-button v-else class="send-sms-btn" native-type="button" @click="getCode"
+          <van-count-down
+            :time="1000 * 5"
+            format="ss 秒"
+            v-if="isShowCountDown"
+            @finish="isShowCountDown = false"
+          />
+          <van-button
+            v-else
+            class="send-sms-btn"
+            native-type="button"
+            @click="getCode"
             >获取验证码</van-button
           >
         </template>
@@ -35,6 +46,16 @@
         </van-button>
       </div>
     </van-form>
+    <van-number-keyboard
+      :show="show"
+      theme="custom"
+      extra-key="."
+      close-button-text="完成"
+      @blur="show = false"
+      @input="onInput"
+      @delete="onDelete"
+      v-model="userInfo.mobile"
+    />
   </div>
 </template>
 
@@ -59,7 +80,8 @@ export default {
           { pattern: /^\d{6}$/, message: '验证码不正确' }
         ]
       },
-      isShowCountDown: false
+      isShowCountDown: false,
+      show: false
     }
   },
 
@@ -98,6 +120,11 @@ export default {
       } catch (err) {
         this.$toast.fail('手机号格式不正确')
       }
+    },
+    onInput(value) {
+    },
+    onDelete(value) {
+      console.log(value)
     }
   }
 }
@@ -125,7 +152,7 @@ export default {
       border: none;
     }
   }
-  .login-form{
+  .login-form {
     .van-field {
       height: 100px;
       line-height: 60px;
