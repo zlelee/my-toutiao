@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { getAllChannels } from '@/api/channel-list'
 export default {
   name: 'editChannel',
   props: {
@@ -51,10 +52,23 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      allChannels: []
+    }
   },
-
-  methods: {}
+  created() {
+    this.loadChannels()
+  },
+  methods: {
+    async loadChannels() {
+      try {
+        const { data } = await getAllChannels()
+        this.allChannels = data.data.channels
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
 
