@@ -41,6 +41,7 @@
 <script>
 import { getAllChannels, addUserChannel } from '@/api/channel-list'
 import { mapState } from 'vuex'
+import { setItem } from '@/utils/storage'
 export default {
   name: 'editChannel',
   props: {
@@ -73,8 +74,8 @@ export default {
       }
     },
     async addToMyChannels(channel) {
+      this.myChannels.push(channel)
       if (this.tokenObj) {
-        this.myChannels.push(channel)
         // 用户已登录
         try {
           await addUserChannel({
@@ -87,7 +88,8 @@ export default {
           this.$toast('添加频道失败,请稍后再试')
         }
       } else {
-        console.log('未登录')
+        // 用户未登录
+        setItem('user_channels', this.myChannels)
       }
     },
     editMyChannel(channel, index) {
