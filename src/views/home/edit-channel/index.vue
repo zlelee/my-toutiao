@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getAllChannels, addUserChannel } from '@/api/channel-list'
+import { getAllChannels, addUserChannel, deleteUserChannel } from '@/api/channel-list'
 import { mapState } from 'vuex'
 import { setItem } from '@/utils/storage'
 export default {
@@ -94,6 +94,7 @@ export default {
     },
     editMyChannel(channel, index) {
       if (this.isShowClear) {
+        // 删除频道
         if (this.requiredChannel.includes(channel.id)) {
           return // 不能删除的频道
         }
@@ -101,8 +102,22 @@ export default {
           this.$emit('clickChannel', this.active - 1)
         }
         this.myChannels.splice(index, 1)
+        this.deleteMyChannle(channel)
       } else {
         this.$emit('clickChannel', index, false)
+      }
+    },
+    async deleteMyChannle(channel) {
+      if (this.tokenObj) {
+        // 登录状态下
+        try {
+          await deleteUserChannel(channel.id)
+        } catch (err) {
+          this.$toast('删除频道失败')
+        }
+      } else {
+        // 未登录状态
+        setItem('user_channels', this.myChannels)
       }
     }
   },
