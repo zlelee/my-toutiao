@@ -39,7 +39,8 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel-list'
+import { getAllChannels, addUserChannel } from '@/api/channel-list'
+import { mapState } from 'vuex'
 export default {
   name: 'editChannel',
   props: {
@@ -71,8 +72,23 @@ export default {
         console.log(err)
       }
     },
-    addToMyChannels(channel) {
-      this.myChannels.push(channel)
+    async addToMyChannels(channel) {
+      if (this.tokenObj) {
+        this.myChannels.push(channel)
+        // 用户已登录
+        try {
+          await addUserChannel({
+            id: channel.id,
+            seq: 1
+          })
+        } catch (err) {
+          const i = this.myChannels.findIndex(item => item.id === channel.id)
+          this.myChannels.splice(i, 1)
+          this.$toast('添加频道失败,请稍后再试')
+        }
+      } else {
+        console.log('未登录')
+      }
     },
     editMyChannel(channel, index) {
       if (this.isShowClear) {
@@ -93,7 +109,8 @@ export default {
       return this.allChannels.filter(channel => {
         return !this.myChannels.find(item => item.id === channel.id)
       })
-    }
+    },
+    ...mapState(['tokenObj'])
   }
 }
 </script>
