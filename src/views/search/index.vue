@@ -8,17 +8,18 @@
         @search="onSearch"
         @cancel="onCancel"
         background="#3296fa"
+        @focus="isResultShow = false"
       />
     </form>
 
     <!-- 搜索结果 -->
-    <search-result/>
+    <search-result v-if="isResultShow"/>
     <!-- /搜索结果 -->
     <!-- 联想建议 -->
-    <search-suggestion/>
+    <search-suggestion v-else-if="searchText"/>
     <!-- /联想建议 -->
     <!-- 搜索历史记录 -->
-    <search-history/>
+    <search-history v-else/>
     <!-- /搜索历史记录 -->
   </div>
 </template>
@@ -37,7 +38,8 @@ export default {
   },
   data() {
     return {
-      searchText: ''
+      searchText: '',
+      isResultShow: false
     }
   },
 
