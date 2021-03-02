@@ -13,6 +13,7 @@
         class="grid-item"
         v-for="(channel, index) in myChannels"
         :key="index"
+        @click="editMyChannel(index)"
       >
       <van-icon slot="icon" name="clear" v-show="isShowClear && !requiredChannel.includes(channel.id)"></van-icon>
       <span slot="text" class="text" :class="{active: active === index}">{{channel.name}}</span>
@@ -72,6 +73,13 @@ export default {
     },
     addToMyChannels(channel) {
       this.myChannels.push(channel)
+    },
+    editMyChannel(index) {
+      if (this.isShowClear) {
+        console.log('编辑')
+      } else {
+        this.$emit('clickChannel', index)
+      }
     }
   },
   computed: {

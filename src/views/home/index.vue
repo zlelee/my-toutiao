@@ -34,7 +34,7 @@
       close-icon-position="top-left"
       :style="{ height: '100%' }"
     >
-    <edit-channel :active="active" :my-channels="channels"></edit-channel>
+    <edit-channel @clickChannel="editMyChannel" :active="active" :my-channels="channels"></edit-channel>
     </van-popup>
   </div>
 </template>
@@ -67,6 +67,10 @@ export default {
       } catch (err) {
         this.$toast('获取频道列表失败')
       }
+    },
+    editMyChannel(index) {
+      this.active = index
+      this.editChannel = false
     }
   }
 }
