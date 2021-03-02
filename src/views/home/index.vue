@@ -22,7 +22,7 @@
         <article-list :channel="channel"></article-list>
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger-btn" @click="editChannel=true">
+      <div slot="nav-right" class="hamburger-btn" @click="editChannel = true">
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
@@ -35,13 +35,19 @@
       :style="{ height: '100%' }"
       @close="closeEdit"
     >
-    <edit-channel ref="editChannel" @clickChannel="editMyChannel" :active="active" :my-channels="channels"></edit-channel>
+      <edit-channel
+        ref="editChannel"
+        @clickChannel="editMyChannel"
+        :active="active"
+        :my-channels="channels"
+      ></edit-channel>
     </van-popup>
   </div>
 </template>
 
 <script>
 import { getArticleList } from '@/api/article-list'
+import { getItem } from '@/utils/storage'
 import ArticleList from './article-list'
 import EditChannel from './edit-channel'
 export default {
@@ -62,12 +68,19 @@ export default {
   },
   methods: {
     async loadChannels() {
-      try {
+      let channels = []
+      const localChannels = getItem('user_channels')
+      // 没有登录且在本地没有数据
+      if (localChannels && !this.$store.state.tokenObj) {
+        // 有本地频道数据，则使用
+        channels = localChannels
+      } else {
+        // 没有本地频道数据，则请求获取默认推荐的频道列表
         const { data } = await getArticleList()
-        this.channels = data.data.channels
-      } catch (err) {
-        this.$toast('获取频道列表失败')
+        channels = data.data.channels
       }
+      // 将数据更新到组件中
+      this.channels = channels
     },
     editMyChannel(index, showEdit = true) {
       this.active = index

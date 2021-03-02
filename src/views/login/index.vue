@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       userInfo: {
-        mobile: '13911111111',
+        mobile: '13911111119',
         code: '246810'
       },
       userForm: {
