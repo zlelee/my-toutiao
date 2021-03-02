@@ -76,11 +76,10 @@ export default {
     async addToMyChannels(channel) {
       this.myChannels.push(channel)
       if (this.tokenObj) {
-        // 用户已登录
         try {
           await addUserChannel({
             id: channel.id,
-            seq: 1
+            seq: this.myChannels.length
           })
         } catch (err) {
           const i = this.myChannels.findIndex(item => item.id === channel.id)
