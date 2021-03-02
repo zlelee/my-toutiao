@@ -13,7 +13,7 @@
         class="grid-item"
         v-for="(channel, index) in myChannels"
         :key="index"
-        @click="editMyChannel(index)"
+        @click="editMyChannel(channel,index)"
       >
       <van-icon slot="icon" name="clear" v-show="isShowClear && !requiredChannel.includes(channel.id)"></van-icon>
       <span slot="text" class="text" :class="{active: active === index}">{{channel.name}}</span>
@@ -74,11 +74,17 @@ export default {
     addToMyChannels(channel) {
       this.myChannels.push(channel)
     },
-    editMyChannel(index) {
+    editMyChannel(channel, index) {
       if (this.isShowClear) {
-        console.log('编辑')
+        if (this.requiredChannel.includes(channel.id)) {
+          return // 不能删除的频道
+        }
+        if (this.active >= index) {
+          this.$emit('clickChannel', this.active - 1)
+        }
+        this.myChannels.splice(index, 1)
       } else {
-        this.$emit('clickChannel', index)
+        this.$emit('clickChannel', index, false)
       }
     }
   },

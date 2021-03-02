@@ -33,8 +33,9 @@
       position="bottom"
       close-icon-position="top-left"
       :style="{ height: '100%' }"
+      @close="closeEdit"
     >
-    <edit-channel @clickChannel="editMyChannel" :active="active" :my-channels="channels"></edit-channel>
+    <edit-channel ref="editChannel" @clickChannel="editMyChannel" :active="active" :my-channels="channels"></edit-channel>
     </van-popup>
   </div>
 </template>
@@ -68,9 +69,12 @@ export default {
         this.$toast('获取频道列表失败')
       }
     },
-    editMyChannel(index) {
+    editMyChannel(index, showEdit = true) {
       this.active = index
-      this.editChannel = false
+      this.editChannel = showEdit
+    },
+    closeEdit() {
+      this.$refs.editChannel.isShowClear = false
     }
   }
 }
