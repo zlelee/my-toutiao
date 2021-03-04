@@ -11,12 +11,23 @@
 <script>
 export default {
   name: 'searchSuggestion',
-
+  props: {
+    searchText: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
     }
   },
-
+  watch: {
+    searchText: {
+      handler(val) {
+        console.log(val)
+      }
+    }
+  },
   methods: {}
 }
 </script>
