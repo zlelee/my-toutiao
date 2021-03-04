@@ -1,6 +1,8 @@
 <template>
   <div class="search-suggestion">
-    <van-cell v-for="(item,index) in suggestion" :key="index" :title="item" icon="search"></van-cell>
+    <van-cell v-for="(item,index) in suggestion" :key="index" icon="search">
+      <div slot="title" v-html="heightLight(item)"></div>
+    </van-cell>
   </div>
 </template>
 
@@ -36,11 +38,19 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    heightLight(text) {
+      const reg = new RegExp(this.searchText, 'gi')
+      return text.replace(reg, `<span class="active">${this.searchText}</span>`)
     }
   }
 }
 </script>
 
 <style lang='less' scoped>
-
+.search-suggestion{
+  /deep/.active {
+    color: skyblue;
+  }
+}
 </style>
