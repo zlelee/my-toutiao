@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <form action="/">
+    <form action="/" class="form">
       <van-search
         v-model="searchText"
         show-action
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { getItem, setItem } from '@/utils/storage'
 import SearchHistory from './components/search-history'
 import SearchSuggestion from './components/search-suggestion'
 import SearchResult from './components/search-result'
@@ -40,7 +41,7 @@ export default {
     return {
       searchText: '',
       isResultShow: false,
-      searchHistories: []
+      searchHistories: getItem('serach-histories') || []
     }
   },
 
@@ -63,17 +64,31 @@ export default {
         this.searchHistories.splice(params, 1)
       }
     }
+  },
+  watch: {
+    searchHistories (val) {
+    // 同步到本地存储
+      setItem('serach-histories', val)
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 .search-container {
+  padding-top: 110px;
   .van-search__action {
     color: #fff;
   }
   .van-search__action:active {
     background: transparent;
+  }
+  .van-search {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
   }
 }
 </style>
