@@ -13,13 +13,13 @@
     </form>
 
     <!-- 搜索结果 -->
-    <search-result v-if="isResultShow" :searchText="searchText"/>
+    <search-result v-if="isResultShow" :searchText="searchText" />
     <!-- /搜索结果 -->
     <!-- 联想建议 -->
-    <search-suggestion :searchText="searchText" v-else-if="searchText"/>
+    <search-suggestion :searchText="searchText" v-else-if="searchText" />
     <!-- /联想建议 -->
     <!-- 搜索历史记录 -->
-    <search-history @clear='clear' :searchHistories="searchHistories" v-else/>
+    <search-history @clear="clear" :searchHistories="searchHistories" v-else />
     <!-- /搜索历史记录 -->
   </div>
 </template>
