@@ -19,7 +19,7 @@
     <search-suggestion :searchText="searchText" v-else-if="searchText"/>
     <!-- /联想建议 -->
     <!-- 搜索历史记录 -->
-    <search-history :searchHistories="searchHistories" v-else/>
+    <search-history @clear='clear' :searchHistories="searchHistories" v-else/>
     <!-- /搜索历史记录 -->
   </div>
 </template>
@@ -55,6 +55,13 @@ export default {
     },
     onCancel() {
       this.$router.back()
+    },
+    clear(params) {
+      if (params === []) {
+        this.searchHistories = []
+      } else {
+        this.searchHistories.splice(params, 1)
+      }
     }
   }
 }
