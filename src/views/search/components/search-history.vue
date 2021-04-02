@@ -23,7 +23,12 @@
 <script>
 export default {
   name: 'searchHistory',
-
+  prop: {
+    searchHistories: {
+      type: Array,
+      default: []
+    }
+  },
   data () {
     return {
     }
