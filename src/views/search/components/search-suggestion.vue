@@ -1,6 +1,6 @@
 <template>
   <div class="search-suggestion">
-    <van-cell v-for="(item,index) in suggestion" :key="index" icon="search">
+    <van-cell v-for="(item,index) in suggestion" :key="index" icon="search" >
       <div slot="title" v-html="heightLight(item)"></div>
     </van-cell>
   </div>
