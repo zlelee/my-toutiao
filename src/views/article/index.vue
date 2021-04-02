@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { getArticleById } from '@/api/article-list'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -111,10 +112,22 @@ export default {
   },
   data () {
     return {
+      articleInfo: {}
     }
   },
-
-  methods: {}
+  created() {
+    this.getArticleById()
+  },
+  methods: {
+    async getArticleById() {
+      try {
+        const { data: { data: info } } = await getArticleById(this.articleId)
+        this.articleInfo = info
+      } catch (err) {
+        this.$toast.fail('获取文章失败')
+      }
+    }
+  }
 }
 </script>
 
