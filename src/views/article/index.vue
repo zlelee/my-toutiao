@@ -36,18 +36,23 @@
           <div slot="title" class="user-name">{{articleInfo.aut_name}}</div>
           <div slot="label" class="publish-date">{{articleInfo.pubdate | relativeTime}}</div>
           <van-button
+            v-if="!articleInfo.is_followed"
             class="follow-btn"
             type="info"
             color="#3296fa"
             round
             size="small"
             icon="plus"
+            :loading="btnLoading"
+            @click="onFollow"
           >关注</van-button>
-          <!-- <van-button
+          <van-button
+            v-else
             class="follow-btn"
             round
             size="small"
-          >已关注</van-button> -->
+            @click="onFollow"
+          >已关注</van-button>
         </van-cell>
         <!-- /用户信息 -->
 
@@ -104,6 +109,7 @@
 import './github-markdown.css'
 import { getArticleById } from '@/api/article-list'
 import { ImagePreview } from 'vant'
+import { addFollow, deleteFollow } from '@/api/user'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -115,7 +121,8 @@ export default {
   data () {
     return {
       articleInfo: {},
-      isLoading: 'loading' // 默认加载中
+      isLoading: 'loading', // 默认加载中
+      btnLoading: false
     }
   },
   created() {
@@ -127,10 +134,14 @@ export default {
         const { data: { data: info } } = await getArticleById(this.articleId)
         this.articleInfo = info
         // 数据加载完成
-        setTimeout(() => {
+        // setTimeout(() => {
+        //   this.previewImg()
+        // }, 0)
+        this.isLoading = 'finish' // 只有把isloading改成finish, 主体内容才会渲染, 这个时候才能拿到 dom 元素
+        this.$nextTick(() => {
           this.previewImg()
-        }, 10)
-        this.isLoading = 'finish'
+        })
+        console.log(this.articleInfo)
       } catch (err) {
         this.$toast.fail('获取文章失败')
         if (err.response && err.response.status === 404) {
@@ -153,6 +164,26 @@ export default {
           })
         }
       })
+    },
+    async onFollow() {
+      this.btnLoading = true
+      try {
+        if (this.articleInfo.is_followed) {
+        // 已经关注了, 取消关注
+          await deleteFollow(this.articleInfo.aut_id)
+          this.$toast.success('取消关注成功')
+        } else {
+        // 没有关注, 关注用户
+          await addFollow(this.articleInfo.aut_id)
+          this.$toast.success('关注成功')
+        }
+        // 更新视图
+        this.articleInfo.is_followed = !this.articleInfo.is_followed
+      } catch (err) {
+        this.$toast.fail('操作失败')
+      }
+      // 关闭加载状态
+      this.btnLoading = false
     }
   }
 }
