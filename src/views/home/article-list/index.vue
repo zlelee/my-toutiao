@@ -14,7 +14,7 @@
         :error.sync="error"
         error-text="请求失败，点击重新加载"
       >
-        <article-item :key="index" v-for="(item,index) in list" :article="item"></article-item>
+        <article-item @click.native="articleItemClick(item.art_id)" :key="index" v-for="(item,index) in list" :article="item"></article-item>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -90,6 +90,13 @@ export default {
         this.refreshing = false
         this.successText = '刷新失败,请稍后再试'
       }
+    },
+    // 点击文章
+    articleItemClick(articleId) {
+      console.log(articleId)
+      this.$router.push({
+        path: '/article/' + articleId
+      })
     }
   },
   components: {
