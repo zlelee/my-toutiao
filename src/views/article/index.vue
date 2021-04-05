@@ -34,7 +34,7 @@
             :src="articleInfo.aut_photo"
           />
           <div slot="title" class="user-name">{{articleInfo.aut_name}}</div>
-          <div slot="label" class="publish-date">{{articleInfo.pubdate}}</div>
+          <div slot="label" class="publish-date">{{articleInfo.pubdate | relativeTime}}</div>
           <van-button
             class="follow-btn"
             type="info"
