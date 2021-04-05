@@ -52,7 +52,7 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content" v-html="articleInfo.content"></div>
+        <div class="article-content markdown-body" v-html="articleInfo.content"></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import './github-markdown.css'
 import { getArticleById } from '@/api/article-list'
 export default {
   name: 'ArticleIndex',
