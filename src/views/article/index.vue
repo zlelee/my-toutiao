@@ -35,24 +35,7 @@
           />
           <div slot="title" class="user-name">{{articleInfo.aut_name}}</div>
           <div slot="label" class="publish-date">{{articleInfo.pubdate | relativeTime}}</div>
-          <van-button
-            v-if="!articleInfo.is_followed"
-            class="follow-btn"
-            type="info"
-            color="#3296fa"
-            round
-            size="small"
-            icon="plus"
-            :loading="btnLoading"
-            @click="onFollow"
-          >关注</van-button>
-          <van-button
-            v-else
-            class="follow-btn"
-            round
-            size="small"
-            @click="onFollow"
-          >已关注</van-button>
+          <follow-user :is-followed="articleInfo.is_followed" :aut-id ="articleInfo.aut_id" @update-isFollowed="updateIsFollowed"/>
         </van-cell>
         <!-- /用户信息 -->
 
@@ -109,7 +92,7 @@
 import './github-markdown.css'
 import { getArticleById } from '@/api/article-list'
 import { ImagePreview } from 'vant'
-import { addFollow, deleteFollow } from '@/api/user'
+import followUser from './components/followUser'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -117,6 +100,9 @@ export default {
       type: [Number, String, Object],
       required: true
     }
+  },
+  components: {
+    followUser
   },
   data () {
     return {
@@ -165,25 +151,8 @@ export default {
         }
       })
     },
-    async onFollow() {
-      this.btnLoading = true
-      try {
-        if (this.articleInfo.is_followed) {
-        // 已经关注了, 取消关注
-          await deleteFollow(this.articleInfo.aut_id)
-          this.$toast.success('取消关注成功')
-        } else {
-        // 没有关注, 关注用户
-          await addFollow(this.articleInfo.aut_id)
-          this.$toast.success('关注成功')
-        }
-        // 更新视图
-        this.articleInfo.is_followed = !this.articleInfo.is_followed
-      } catch (err) {
-        this.$toast.fail('操作失败')
-      }
-      // 关闭加载状态
-      this.btnLoading = false
+    updateIsFollowed(isFollowed) {
+      this.articleInfo.is_followed = isFollowed
     }
   }
 }
