@@ -52,7 +52,7 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content markdown-body" v-html="articleInfo.content"></div>
+        <div ref="contentRef" class="article-content markdown-body" v-html="articleInfo.content"></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
@@ -103,6 +103,7 @@
 <script>
 import './github-markdown.css'
 import { getArticleById } from '@/api/article-list'
+import { ImagePreview } from 'vant'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -125,7 +126,10 @@ export default {
       try {
         const { data: { data: info } } = await getArticleById(this.articleId)
         this.articleInfo = info
-        console.log(this.articleInfo)
+        // 数据加载完成
+        setTimeout(() => {
+          this.previewImg()
+        }, 10)
         this.isLoading = 'finish'
       } catch (err) {
         this.$toast.fail('获取文章失败')
@@ -135,6 +139,20 @@ export default {
           this.isLoading = 'error'
         }
       }
+    },
+    previewImg() {
+      const content = this.$refs.contentRef
+      const allImg = content.querySelectorAll('img')
+      const images = []
+      allImg.forEach((el, index) => {
+        images.push(el.src)
+        el.onclick = function () {
+          ImagePreview({
+            images,
+            startPosition: index
+          })
+        }
+      })
     }
   }
 }
