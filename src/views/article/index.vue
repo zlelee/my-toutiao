@@ -59,7 +59,7 @@
           >写评论</van-button>
           <van-icon
             name="comment-o"
-            badge="123"
+            :badge="total"
             color="#777"
           />
           <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
@@ -115,7 +115,8 @@ export default {
     return {
       articleInfo: {},
       isLoading: 'loading', // 默认加载中
-      btnLoading: false
+      btnLoading: false,
+      total: 1
     }
   },
   created() {

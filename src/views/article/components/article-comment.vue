@@ -38,10 +38,13 @@ export default {
       list: [], // 评论列表
       loading: false, // 上拉加载更多的 loading
       finished: false, // 是否加载结束
-      offset: null
+      offset: null,
+      totalCount: 0
     }
   },
-
+  created() {
+    this.onLoad()
+  },
   methods: {
     async onLoad() {
       // 显示加载中
@@ -53,13 +56,14 @@ export default {
           offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
           limit: 10 // 请求多少条
         })
-        console.log(data)
         const { results } = data.data
         console.log(results)
         this.list.push(...results)
         this.loading = false
         // 更新总数据条数
         this.totalCount = data.data.total_count
+        // 更新父组件的总数
+        this.$parent.total = this.totalCount
         if (results.length) {
           this.offset = data.data.last_id // 更新获取下一页数据的页码
         } else {
