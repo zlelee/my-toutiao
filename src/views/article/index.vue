@@ -60,7 +60,7 @@
         color="#777"
       />
       <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
-      <like-article />
+      <like-article v-model="articleInfo.attitude " :article-id="articleInfo.art_id"/>
       <van-icon name="share" color="#777777"></van-icon>
     </div>
     <!-- /底部区域 -->
