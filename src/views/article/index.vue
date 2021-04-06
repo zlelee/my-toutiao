@@ -60,10 +60,7 @@
         color="#777"
       />
       <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
-      <van-icon
-        color="#777"
-        name="good-job-o"
-      />
+      <like-article />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
     <!-- /底部区域 -->
@@ -95,6 +92,7 @@ import { getArticleById } from '@/api/article-list'
 import { ImagePreview } from 'vant'
 import followUser from './components/followUser'
 import collectArticle from './components/collectArticle'
+import LikeArticle from './components/likeArticle.vue'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -104,7 +102,9 @@ export default {
     }
   },
   components: {
-    followUser, collectArticle
+    followUser,
+    collectArticle,
+    LikeArticle
   },
   data () {
     return {
