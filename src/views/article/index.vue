@@ -59,7 +59,7 @@
         badge="123"
         color="#777"
       />
-      <collect-article v-model="articleInfo.is_collected"/>
+      <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
       <van-icon
         color="#777"
         name="good-job-o"
