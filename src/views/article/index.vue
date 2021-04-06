@@ -47,7 +47,7 @@
         <div ref="contentRef" class="article-content markdown-body" v-html="articleInfo.content"></div>
         <van-divider>正文结束</van-divider>
         <!-- 用户评论 -->
-        <article-comment />
+        <article-comment :article-id="articleInfo.art_id"/>
         <!-- /用户评论 -->
         <!-- 底部区域 -->
         <div class="article-bottom">
