@@ -7,7 +7,14 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <comment-item v-for="item in list" :comment="item" :key="item.art_id" />
+      <comment-item v-for="item in list" :comment="item" :key="item.art_id">
+        <!-- <van-icon
+          slot="right-icon"
+          color="red"
+          :name="item.is_liking ? 'like' : 'like-o'"
+          @click="onCommentLike(item)"
+        /> -->
+      </comment-item>
     </van-list>
     <!-- 评论列表 -->
 
@@ -58,14 +65,13 @@ export default {
           offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
           limit: 10 // 请求多少条
         })
-
         const { results } = data.data
         this.list.push(...results)
 
         this.loading = false
         // 更新总数据条数
         this.totalCount = data.data.total_count
-        // 更新父组件的总数
+        // *这里要正好是根组件, 不能是 vant 组件库中的组件
         this.$parent.total = this.totalCount
         if (results.length) {
           this.offset = data.data.last_id // 更新获取下一页数据的页码

@@ -8,27 +8,31 @@
       :src="comment.aut_photo"
     />
     <div slot="title" class="title-wrap">
-      <div class="user-name">{{comment.aut_name}}</div>
+      <div class="user-name">{{ comment.aut_name }}</div>
       <van-button
         class="like-btn"
-        icon="good-job-o"
-      >{{comment.like_count || '赞'}}</van-button>
+        :class="{ red: comment.is_liking }"
+        :icon="comment.is_liking ? 'good-job' : 'good-job-o'"
+        @click="onCommentLike(comment.com_id)"
+        >{{ comment.like_count || '赞' }}</van-button
+      >
     </div>
-
     <div slot="label">
-      <p class="comment-content">{{comment.content}}</p>
+      <p class="comment-content">{{ comment.content }}</p>
       <div class="bottom-info">
-        <span class="comment-pubdate">{{comment.pubdate | relativeTime}}</span>
-        <van-button
-          class="reply-btn"
-          round
-        >回复 {{comment.reply_count}}</van-button>
+        <span class="comment-pubdate">{{
+          comment.pubdate | relativeTime
+        }}</span>
+        <van-button class="reply-btn" round
+          >回复 {{ comment.reply_count }}</van-button
+        >
       </div>
     </div>
   </van-cell>
 </template>
 
 <script>
+import { addCommentLike, deleteCommentLike } from '@/api/comment'
 export default {
   name: 'CommentItem',
   components: {},
@@ -38,14 +42,35 @@ export default {
       required: true
     }
   },
-  data () {
+  data() {
     return {}
   },
   computed: {},
   watch: {},
-  created () {},
-  mounted () {},
-  methods: {}
+  created() {},
+  mounted() {},
+  methods: {
+    async onCommentLike(comId) {
+      console.log(comId)
+      try {
+        if (this.comment.is_liking) {
+          // 已经点赞
+          await deleteCommentLike(comId)
+          if (this.comment.like_count >= 1) {
+            this.comment.like_count--
+          }
+        } else {
+          // 未点赞
+          await addCommentLike(comId)
+          this.comment.like_count++
+        }
+        this.comment.is_liking = !this.comment.is_liking
+        this.$toast('操作成功')
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
 
@@ -97,6 +122,9 @@ export default {
     .van-icon {
       font-size: 30px;
     }
+  }
+  .red {
+    color: rgb(100, 99, 96);
   }
 }
 </style>
