@@ -46,24 +46,27 @@
         <!-- 文章内容 -->
         <div ref="contentRef" class="article-content markdown-body" v-html="articleInfo.content"></div>
         <van-divider>正文结束</van-divider>
+        <!-- 用户评论 -->
+        <article-comment />
+        <!-- /用户评论 -->
         <!-- 底部区域 -->
-    <div class="article-bottom">
-      <van-button
-        class="comment-btn"
-        type="default"
-        round
-        size="small"
-      >写评论</van-button>
-      <van-icon
-        name="comment-o"
-        badge="123"
-        color="#777"
-      />
-      <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
-      <like-article v-model="articleInfo.attitude " :article-id="articleInfo.art_id"/>
-      <van-icon name="share" color="#777777"></van-icon>
-    </div>
-    <!-- /底部区域 -->
+        <div class="article-bottom">
+          <van-button
+            class="comment-btn"
+            type="default"
+            round
+            size="small"
+          >写评论</van-button>
+          <van-icon
+            name="comment-o"
+            badge="123"
+            color="#777"
+          />
+          <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
+          <like-article v-model="articleInfo.attitude " :article-id="articleInfo.art_id"/>
+          <van-icon name="share" color="#777777"></van-icon>
+        </div>
+        <!-- /底部区域 -->
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -93,6 +96,7 @@ import { ImagePreview } from 'vant'
 import followUser from './components/followUser'
 import collectArticle from './components/collectArticle'
 import LikeArticle from './components/likeArticle.vue'
+import ArticleComment from './components/article-comment'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -104,7 +108,8 @@ export default {
   components: {
     followUser,
     collectArticle,
-    LikeArticle
+    LikeArticle,
+    ArticleComment
   },
   data () {
     return {
