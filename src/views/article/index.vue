@@ -135,7 +135,6 @@ export default {
         this.$nextTick(() => {
           this.previewImg()
         })
-        console.log(this.articleInfo)
       } catch (err) {
         this.$toast.fail('获取文章失败')
         if (err.response && err.response.status === 404) {

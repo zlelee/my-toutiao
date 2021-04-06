@@ -7,9 +7,7 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell v-for="item in list" :key="item.art_id">
-        {{ item.content }}
-      </van-cell>
+      <comment-item v-for="item in list" :comment="item" :key="item.art_id" />
     </van-list>
     <!-- 评论列表 -->
 
@@ -25,6 +23,7 @@
 
 <script>
 import { getComments } from '@/api/comment'
+import commentItem from './comment-item'
 export default {
   name: 'ArticleComment',
   props: {
@@ -33,13 +32,16 @@ export default {
       required: true
     }
   },
+  components: {
+    commentItem
+  },
   data() {
     return {
       list: [], // 评论列表
       loading: false, // 上拉加载更多的 loading
       finished: false, // 是否加载结束
       offset: null,
-      totalCount: 0
+      totalCount: 0 // 评论总数
     }
   },
   created() {
@@ -56,9 +58,10 @@ export default {
           offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
           limit: 10 // 请求多少条
         })
+
         const { results } = data.data
-        console.log(results)
         this.list.push(...results)
+
         this.loading = false
         // 更新总数据条数
         this.totalCount = data.data.total_count
@@ -78,14 +81,14 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .publish-wrap {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-  }
+.publish-wrap {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
 
-  .van-list {
-    margin-bottom: 45px;
-  }
+.van-list {
+  margin-bottom: 45px;
+}
 </style>
