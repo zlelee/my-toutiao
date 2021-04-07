@@ -53,6 +53,9 @@ export default {
   },
   created() {
     this.onLoad()
+    this.$eventBus.$on('postCommentSuccess', (newComment) => {
+      this.list.unshift(newComment)
+    })
   },
   methods: {
     async onLoad() {

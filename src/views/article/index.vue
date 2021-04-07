@@ -88,7 +88,7 @@
     </div>
     <!-- 发表评论弹层 -->
     <van-popup v-model="isShow" position="bottom">
-      <comment-post />
+      <comment-post @postCommentSuccess="isShow = false" :article-id="articleInfo.art_id"/>
     </van-popup>
     <!-- /发表评论弹层 -->
 
