@@ -56,6 +56,7 @@
             type="default"
             round
             size="small"
+            @click="isShow = true"
           >写评论</van-button>
           <van-icon
             name="comment-o"
@@ -85,6 +86,11 @@
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
+    <!-- 发表评论弹层 -->
+    <van-popup v-model="isShow" position="bottom">
+      <comment-post />
+    </van-popup>
+    <!-- /发表评论弹层 -->
 
   </div>
 </template>
@@ -97,6 +103,7 @@ import followUser from './components/followUser'
 import collectArticle from './components/collectArticle'
 import LikeArticle from './components/likeArticle.vue'
 import ArticleComment from './components/article-comment'
+import CommentPost from './components/commentPost'
 export default {
   name: 'ArticleIndex',
   props: {
@@ -109,14 +116,16 @@ export default {
     followUser,
     collectArticle,
     LikeArticle,
-    ArticleComment
+    ArticleComment,
+    CommentPost
   },
   data () {
     return {
       articleInfo: {},
       isLoading: 'loading', // 默认加载中
       btnLoading: false,
-      total: 1
+      total: 1,
+      isShow: false
     }
   },
   created() {
