@@ -52,7 +52,10 @@ export default {
         this.$emit('close', this.localName)
       } catch (err) {
         console.log(err)
-        this.$toast.fail('修改昵称失败')
+        if (err.response && err.response.status === 409) {
+          return this.$toast('用户名已存在')
+        }
+        this.$toast('修改用户昵称失败')
       }
     }
   }
