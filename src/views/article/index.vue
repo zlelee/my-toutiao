@@ -1,27 +1,20 @@
 <template>
-   <div class="article-container">
+  <div class="article-container">
     <!-- 导航栏 -->
-    <van-nav-bar
-      class="page-nav-bar"
-      left-arrow
-      title="黑马头条"
-    ></van-nav-bar>
+    <van-nav-bar class="page-nav-bar" left-arrow title="黑马头条" @click-left="$router.back()"></van-nav-bar>
     <!-- /导航栏 -->
 
     <div class="main-wrap">
       <!-- 加载中 -->
       <div class="loading-wrap" v-if="isLoading === 'loading'">
-        <van-loading
-          color="#3296fa"
-          vertical
-        >加载中</van-loading>
+        <van-loading color="#3296fa" vertical>加载中</van-loading>
       </div>
       <!-- /加载中 -->
 
       <!-- 加载完成-文章详情 -->
       <div class="article-detail" v-if="isLoading === 'finish'">
         <!-- 文章标题 -->
-        <h1 class="article-title">{{articleInfo.title}}</h1>
+        <h1 class="article-title">{{ articleInfo.title }}</h1>
         <!-- /文章标题 -->
 
         <!-- 用户信息 -->
@@ -33,21 +26,27 @@
             fit="cover"
             :src="articleInfo.aut_photo"
           />
-          <div slot="title" class="user-name">{{articleInfo.aut_name}}</div>
-          <div slot="label" class="publish-date">{{articleInfo.pubdate | relativeTime}}</div>
+          <div slot="title" class="user-name">{{ articleInfo.aut_name }}</div>
+          <div slot="label" class="publish-date">
+            {{ articleInfo.pubdate | relativeTime }}
+          </div>
           <follow-user
             :is-followed="articleInfo.is_followed"
-            :aut-id ="articleInfo.aut_id"
+            :aut-id="articleInfo.aut_id"
             @update-isFollowed="updateIsFollowed"
           />
         </van-cell>
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div ref="contentRef" class="article-content markdown-body" v-html="articleInfo.content"></div>
+        <div
+          ref="contentRef"
+          class="article-content markdown-body"
+          v-html="articleInfo.content"
+        ></div>
         <van-divider>正文结束</van-divider>
         <!-- 用户评论 -->
-        <article-comment :article-id="articleInfo.art_id"/>
+        <article-comment :article-id="articleInfo.art_id" />
         <!-- /用户评论 -->
         <!-- 底部区域 -->
         <div class="article-bottom">
@@ -57,14 +56,17 @@
             round
             size="small"
             @click="isShow = true"
-          >写评论</van-button>
-          <van-icon
-            name="comment-o"
-            :badge="total"
-            color="#777"
+            >写评论</van-button
+          >
+          <van-icon name="comment-o" :badge="total" color="#777" />
+          <collect-article
+            v-model="articleInfo.is_collected"
+            :article-id="articleInfo.art_id"
           />
-          <collect-article v-model="articleInfo.is_collected" :article-id="articleInfo.art_id"/>
-          <like-article v-model="articleInfo.attitude " :article-id="articleInfo.art_id"/>
+          <like-article
+            v-model="articleInfo.attitude"
+            :article-id="articleInfo.art_id"
+          />
           <van-icon name="share" color="#777777"></van-icon>
         </div>
         <!-- /底部区域 -->
@@ -88,10 +90,12 @@
     </div>
     <!-- 发表评论弹层 -->
     <van-popup v-model="isShow" position="bottom">
-      <comment-post @postCommentSuccess="isShow = false" :article-id="articleInfo.art_id"/>
+      <comment-post
+        @postCommentSuccess="postCommentSuccess"
+        :article-id="articleInfo.art_id"
+      />
     </van-popup>
     <!-- /发表评论弹层 -->
-
   </div>
 </template>
 
@@ -119,12 +123,12 @@ export default {
     ArticleComment,
     CommentPost
   },
-  data () {
+  data() {
     return {
       articleInfo: {},
       isLoading: 'loading', // 默认加载中
       btnLoading: false,
-      total: 1,
+      total: null,
       isShow: false
     }
   },
@@ -134,7 +138,9 @@ export default {
   methods: {
     async getArticleById() {
       try {
-        const { data: { data: info } } = await getArticleById(this.articleId)
+        const {
+          data: { data: info }
+        } = await getArticleById(this.articleId)
         this.articleInfo = info
         // 数据加载完成
         // setTimeout(() => {
@@ -159,7 +165,7 @@ export default {
       const images = []
       allImg.forEach((el, index) => {
         images.push(el.src)
-        el.onclick = function () {
+        el.onclick = function() {
           ImagePreview({
             images,
             startPosition: index
@@ -169,13 +175,21 @@ export default {
     },
     updateIsFollowed(isFollowed) {
       this.articleInfo.is_followed = isFollowed
+    },
+    // *提交评论成功
+    postCommentSuccess() {
+      this.total++
+      this.isShow = false
     }
   }
 }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .article-container {
+  .van-nav-bar{
+    z-index: unset;
+  }
   .main-wrap {
     position: fixed;
     left: 0;

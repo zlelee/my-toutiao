@@ -7,23 +7,21 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <comment-item v-for="item in list" :comment="item" :key="item.art_id">
-        <!-- <van-icon
-          slot="right-icon"
-          color="red"
-          :name="item.is_liking ? 'like' : 'like-o'"
-          @click="onCommentLike(item)"
-        /> -->
+      <comment-item @reply-click="replyClick" v-for="item in list" :comment="item" :key="item.art_id">
       </comment-item>
     </van-list>
     <!-- 评论列表 -->
-
-    <!-- 发布评论 -->
-    <van-cell-group class="publish-wrap">
+    <!-- 评论回复 -->
+    <van-popup v-model="isReplyShow" position="bottom" :style="{ height: '100%' }">
+      <comment-reply :articleId="articleId" v-if="isReplyShow" @click-close="isReplyShow = false" :comment="replyComment"/>
+    </van-popup>
+    <!-- /评论回复 -->
+        <!-- 发布评论 -->
+    <!-- <van-cell-group class="publish-wrap">
       <van-field clearable placeholder="请输入评论内容">
         <van-button slot="button" size="mini" type="info">发布</van-button>
       </van-field>
-    </van-cell-group>
+    </van-cell-group> -->
     <!-- /发布评论 -->
   </div>
 </template>
@@ -31,16 +29,22 @@
 <script>
 import { getComments } from '@/api/comment'
 import commentItem from './comment-item'
+import commentReply from './comment-reply'
 export default {
   name: 'ArticleComment',
   props: {
     articleId: {
       type: [Number, Object, String],
-      required: true
+      default: null
+    },
+    commentId: {
+      type: [Number, Object, String],
+      default: null
     }
   },
   components: {
-    commentItem
+    commentItem,
+    commentReply
   },
   data() {
     return {
@@ -48,7 +52,9 @@ export default {
       loading: false, // 上拉加载更多的 loading
       finished: false, // 是否加载结束
       offset: null,
-      totalCount: 0 // 评论总数
+      totalCount: 0, // 评论总数
+      isReplyShow: false, // 回复评论弹窗
+      replyComment: null
     }
   },
   created() {
@@ -74,7 +80,7 @@ export default {
         this.loading = false
         // 更新总数据条数
         this.totalCount = data.data.total_count
-        // *这里要正好是根组件, 不能是 vant 组件库中的组件
+        // *这里要正好是根节点, 不能是 vant 组件库中的组件
         this.$parent.total = this.totalCount
         if (results.length) {
           this.offset = data.data.last_id // 更新获取下一页数据的页码
@@ -84,6 +90,10 @@ export default {
       } catch (err) {
         console.dir(err)
       }
+    },
+    replyClick(comment) {
+      this.replyComment = comment
+      this.isReplyShow = true
     }
   }
 }
@@ -95,6 +105,7 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
+  z-index: 1;
 }
 
 .van-list {
